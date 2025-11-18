@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { products } from '../data/products';
+import { services } from '../data/services';
+
+const featuredProducts = products.slice(0, 3);
+const featuredServices = services.slice(0, 3);
+---
+
+<Layout title="GMExpress - Inicio">
+	<section class="hero">
+		<div class="container">
+			<div class="hero-content">
+				<h1>Bienvenido a <span class="highlight">GMExpress</span></h1>
+				<p class="hero-subtitle">Tu socio tecnológico de confianza</p>
+				<p class="hero-description">
+					Descubre nuestra amplia gama de productos tecnológicos y servicios profesionales 
+					diseñados para impulsar tu negocio y optimizar tu infraestructura digital.
+				</p>
+				<div class="hero-buttons">
+					<a href="/productos" class="btn btn-primary">Ver Productos</a>
+					<a href="/servicios" class="btn btn-secondary">Ver Servicios</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="featured-section">
+		<div class="container">
+			<div class="section-header">
+				<h2>🔥 Productos Destacados</h2>
+				<a href="/productos" class="view-all">Ver todos →</a>
+			</div>
+			
+			<div class="products-grid">
+				{featuredProducts.map(product => (
+					<ProductCard product={product} />
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="featured-section alt-bg">
+		<div class="container">
+			<div class="section-header">
+				<h2>⭐ Servicios Destacados</h2>
+				<a href="/servicios" class="view-all">Ver todos →</a>
+			</div>
+			
+			<div class="services-grid">
+				{featuredServices.map(service => (
+					<ServiceCard service={service} />
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="cta-section">
+		<div class="container">
+			<div class="cta-content">
+				<h2>¿Necesitas ayuda para elegir?</h2>
+				<p>Nuestro equipo de expertos está listo para asesorarte</p>
+				<a href="/servicios" class="btn btn-white">Contactar ahora</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		padding: 5rem 0;
+		text-align: center;
+	}
+
+	.hero-content {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.hero h1 {
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+		line-height: 1.2;
+	}
+
+	.highlight {
+		background: white;
+		color: #667eea;
+		padding: 0.2rem 1rem;
+		border-radius: 10px;
+		display: inline-block;
+	}
+
+	.hero-subtitle {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		opacity: 0.95;
+	}
+
+	.hero-description {
+		font-size: 1.1rem;
+		margin-bottom: 2rem;
+		opacity: 0.9;
+		line-height: 1.8;
+	}
+
+	.hero-buttons {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.btn {
+		padding: 1rem 2rem;
+		text-decoration: none;
+		border-radius: 10px;
+		font-weight: 600;
+		font-size: 1.1rem;
+		transition: all 0.3s;
+		display: inline-block;
+	}
+
+	.btn-primary {
+		background: white;
+		color: #667eea;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+	}
+
+	.btn-secondary {
+		background: rgba(255, 255, 255, 0.2);
+		color: white;
+		border: 2px solid white;
+	}
+
+	.btn-secondary:hover {
+		background: rgba(255, 255, 255, 0.3);
+		transform: translateY(-3px);
+	}
+
+	.featured-section {
+		padding: 4rem 0;
+	}
+
+	.alt-bg {
+		background: white;
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+	}
+
+	.section-header h2 {
+		font-size: 2rem;
+		color: #1e3c72;
+	}
+
+	.view-all {
+		color: #667eea;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 1.1rem;
+		transition: transform 0.3s;
+		display: inline-block;
+	}
+
+	.view-all:hover {
+		transform: translateX(5px);
+	}
+
+	.products-grid,
+	.services-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.cta-section {
+		background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+	}
+
+	.cta-content h2 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.cta-content p {
+		font-size: 1.2rem;
+		margin-bottom: 2rem;
+		opacity: 0.9;
+	}
+
+	.btn-white {
+		background: white;
+		color: #1e3c72;
+		font-size: 1.1rem;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	}
+
+	.btn-white:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+	}
+
+	@media (max-width: 768px) {
+		.hero h1 {
+			font-size: 2.5rem;
+		}
+
+		.hero-subtitle {
+			font-size: 1.2rem;
+		}
+
+		.hero-description {
+			font-size: 1rem;
+		}
+
+		.section-header {
+			flex-direction: column;
+			gap: 1rem;
+			text-align: center;
+		}
+
+		.section-header h2 {
+			font-size: 1.5rem;
+		}
+
+		.products-grid,
+		.services-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.cta-content h2 {
+			font-size: 2rem;
+		}
+	}
+</style>

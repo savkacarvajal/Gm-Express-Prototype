@@ -1,0 +1,535 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="GMExpress - Solicitar Cotización">
+	<section class="page-header">
+		<div class="container">
+			<h1>📋 Solicitar Cotización</h1>
+			<p>Completa el formulario y nos contactaremos contigo a la brevedad</p>
+		</div>
+	</section>
+
+	<section class="contact-section">
+		<div class="container">
+			<div class="contact-grid">
+				<div class="form-container">
+					<form id="contactForm" class="contact-form">
+						<div class="form-group">
+							<label for="fullName">
+								<span class="icon">👤</span>
+								Nombre Completo *
+							</label>
+							<input 
+								type="text" 
+								id="fullName" 
+								name="fullName"
+								placeholder="Juan Pérez González"
+								required 
+							/>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group">
+								<label for="email">
+									<span class="icon">📧</span>
+									Correo Electrónico *
+								</label>
+								<input 
+									type="email" 
+									id="email" 
+									name="email"
+									placeholder="correo@empresa.com"
+									required 
+								/>
+							</div>
+
+							<div class="form-group">
+								<label for="phone">
+									<span class="icon">📱</span>
+									Teléfono de Contacto *
+								</label>
+								<input 
+									type="tel" 
+									id="phone" 
+									name="phone"
+									placeholder="+56 9 1234 5678"
+									required 
+								/>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group">
+								<label for="rut">
+									<span class="icon">🆔</span>
+									RUT Empresa *
+								</label>
+								<input 
+									type="text" 
+									id="rut" 
+									name="rut"
+									placeholder="12.345.678-9"
+									required 
+								/>
+							</div>
+
+							<div class="form-group">
+								<label for="company">
+									<span class="icon">🏢</span>
+									Nombre Empresa *
+								</label>
+								<input 
+									type="text" 
+									id="company" 
+									name="company"
+									placeholder="Empresa S.A."
+									required 
+								/>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="service">
+								<span class="icon">⚙️</span>
+								Servicio de Interés *
+							</label>
+							<select id="service" name="service" required>
+								<option value="">Selecciona un servicio...</option>
+								<option value="alimentacion-tradicional">Servicio de Alimentación Tradicional</option>
+								<option value="servicio-transportado">Servicio Transportado</option>
+								<option value="concesion-casinos">Concesión de Casinos</option>
+								<option value="recepciones">Eventos Corporativos - Recepciones</option>
+								<option value="catering">Eventos Corporativos - Catering</option>
+								<option value="coffee-break">Coffee Break & Brunch</option>
+								<option value="aniversarios">Aniversarios y Cumpleaños</option>
+								<option value="complementarios">Servicios Complementarios</option>
+								<option value="otro">Otro</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="people">
+								<span class="icon">👥</span>
+								Cantidad de Personas (Aproximado)
+							</label>
+							<input 
+								type="number" 
+								id="people" 
+								name="people"
+								placeholder="50"
+								min="1"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="message">
+								<span class="icon">📝</span>
+								Descripción del Requerimiento *
+							</label>
+							<textarea 
+								id="message" 
+								name="message"
+								placeholder="Describe brevemente tu necesidad: tipo de servicio, frecuencia, características especiales, etc."
+								rows="6"
+								required
+							></textarea>
+							<small>Mínimo 20 caracteres</small>
+						</div>
+
+						<div class="form-group checkbox-group">
+							<label class="checkbox-label">
+								<input type="checkbox" id="terms" required />
+								<span>Acepto los términos y condiciones y autorizo el tratamiento de mis datos personales *</span>
+							</label>
+						</div>
+
+						<button type="submit" class="submit-btn" id="submitBtn">
+							<span id="btnText">📤 Enviar Solicitud</span>
+							<span id="btnLoader" class="loader" style="display: none;">⏳</span>
+						</button>
+
+						<p class="required-note">* Campos obligatorios</p>
+
+						<div id="successMessage" class="success-message" style="display: none;">
+							<strong>✅ ¡Solicitud enviada exitosamente!</strong>
+							<p>Nos contactaremos contigo dentro de las próximas 24 horas hábiles.</p>
+						</div>
+
+						<div id="errorMessage" class="error-message" style="display: none;"></div>
+					</form>
+				</div>
+
+				<div class="info-container">
+					<div class="info-card">
+						<h2>📞 Información de Contacto</h2>
+						<div class="contact-info">
+							<div class="contact-item">
+								<span class="contact-icon">📧</span>
+								<div>
+									<strong>Email</strong>
+									<p>contacto@gmexpress.com</p>
+								</div>
+							</div>
+							<div class="contact-item">
+								<span class="contact-icon">📱</span>
+								<div>
+									<strong>Teléfono</strong>
+									<p>+56 9 1234 5678</p>
+								</div>
+							</div>
+							<div class="contact-item">
+								<span class="contact-icon">📍</span>
+								<div>
+									<strong>Dirección</strong>
+									<p>Santiago, Chile</p>
+								</div>
+							</div>
+							<div class="contact-item">
+								<span class="contact-icon">🕒</span>
+								<div>
+									<strong>Horario</strong>
+									<p>Lun - Vie: 9:00 - 18:00</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="info-card">
+						<h3>⭐ ¿Por qué elegirnos?</h3>
+						<ul class="benefits-list">
+							<li>✓ Más de 10 años de experiencia</li>
+							<li>✓ Personal altamente capacitado</li>
+							<li>✓ Cumplimiento de normas sanitarias</li>
+							<li>✓ Servicio personalizado</li>
+							<li>✓ Precios competitivos</li>
+							<li>✓ Respuesta en 24 horas</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.page-header {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		padding: 3rem 0;
+		text-align: center;
+	}
+
+	.page-header h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.page-header p {
+		font-size: 1.2rem;
+		opacity: 0.9;
+	}
+
+	.contact-section {
+		padding: 3rem 0;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 400px;
+		gap: 2rem;
+	}
+
+	.form-container,
+	.info-card {
+		background: white;
+		border-radius: 12px;
+		padding: 2rem;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.form-group label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+		color: #1e3c72;
+		font-weight: 600;
+		font-size: 0.95rem;
+	}
+
+	.icon {
+		font-size: 1.2rem;
+	}
+
+	.form-group input,
+	.form-group select,
+	.form-group textarea {
+		width: 100%;
+		padding: 0.75rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-family: inherit;
+		transition: all 0.3s;
+	}
+
+	.form-group input:focus,
+	.form-group select:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	}
+
+	.form-group textarea {
+		resize: vertical;
+		min-height: 120px;
+	}
+
+	.form-group small {
+		color: #999;
+		font-size: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
+	.checkbox-group {
+		background: #f8f9fa;
+		padding: 1rem;
+		border-radius: 8px;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+		cursor: pointer;
+		color: #666;
+		font-weight: normal;
+	}
+
+	.checkbox-label input {
+		margin-top: 0.25rem;
+		cursor: pointer;
+		width: auto;
+	}
+
+	.submit-btn {
+		width: 100%;
+		padding: 1rem;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border: none;
+		border-radius: 10px;
+		font-size: 1.1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.submit-btn:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+	}
+
+	.submit-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.loader {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
+	.required-note {
+		text-align: center;
+		color: #999;
+		font-size: 0.9rem;
+		margin: 0;
+	}
+
+	.success-message {
+		padding: 1rem;
+		background: #d1fae5;
+		color: #065f46;
+		border-radius: 8px;
+		border-left: 4px solid #10b981;
+	}
+
+	.success-message strong {
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+
+	.success-message p {
+		margin: 0;
+	}
+
+	.error-message {
+		padding: 1rem;
+		background: #fee;
+		color: #c33;
+		border-radius: 8px;
+		border-left: 4px solid #c33;
+		font-weight: 500;
+	}
+
+	.info-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.info-card h2,
+	.info-card h3 {
+		color: #1e3c72;
+		margin-bottom: 1.5rem;
+	}
+
+	.contact-info {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.contact-item {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-start;
+	}
+
+	.contact-icon {
+		font-size: 1.5rem;
+		flex-shrink: 0;
+	}
+
+	.contact-item strong {
+		display: block;
+		color: #1e3c72;
+		margin-bottom: 0.25rem;
+	}
+
+	.contact-item p {
+		color: #666;
+		margin: 0;
+	}
+
+	.benefits-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.benefits-list li {
+		padding: 0.75rem;
+		margin-bottom: 0.5rem;
+		background: #f8f9fa;
+		border-radius: 6px;
+		color: #333;
+	}
+
+	@media (max-width: 968px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.form-row {
+			grid-template-columns: 1fr;
+		}
+
+		.page-header h1 {
+			font-size: 2rem;
+		}
+	}
+</style>
+
+<script>
+	const contactForm = document.getElementById('contactForm');
+	const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+	const btnText = document.getElementById('btnText');
+	const btnLoader = document.getElementById('btnLoader');
+	const successMessage = document.getElementById('successMessage');
+	const errorMessage = document.getElementById('errorMessage');
+
+	contactForm?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		// Validar mensaje mínimo
+		const messageInput = document.getElementById('message') as HTMLTextAreaElement;
+		if (messageInput.value.length < 20) {
+			if (errorMessage) {
+				errorMessage.textContent = '❌ La descripción debe tener al menos 20 caracteres.';
+				errorMessage.style.display = 'block';
+			}
+			return;
+		}
+
+		// Mostrar loader
+		if (submitBtn) submitBtn.disabled = true;
+		if (btnText) btnText.style.display = 'none';
+		if (btnLoader) btnLoader.style.display = 'inline-block';
+		if (errorMessage) errorMessage.style.display = 'none';
+		if (successMessage) successMessage.style.display = 'none';
+
+		// Simular envío (delay de 2 segundos)
+		await new Promise(resolve => setTimeout(resolve, 2000));
+
+		// Obtener datos del formulario
+		const formData = {
+			fullName: (document.getElementById('fullName') as HTMLInputElement).value,
+			email: (document.getElementById('email') as HTMLInputElement).value,
+			phone: (document.getElementById('phone') as HTMLInputElement).value,
+			rut: (document.getElementById('rut') as HTMLInputElement).value,
+			company: (document.getElementById('company') as HTMLInputElement).value,
+			service: (document.getElementById('service') as HTMLSelectElement).value,
+			people: (document.getElementById('people') as HTMLInputElement).value,
+			message: messageInput.value,
+			date: new Date().toISOString()
+		};
+
+		// Guardar en localStorage (en producción sería enviado a Firebase/backend)
+		const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+		quotes.push(formData);
+		localStorage.setItem('quotes', JSON.stringify(quotes));
+
+		// Mostrar mensaje de éxito
+		if (successMessage) successMessage.style.display = 'block';
+		
+		// Limpiar formulario
+		(contactForm as HTMLFormElement).reset();
+
+		// Restaurar botón
+		if (submitBtn) submitBtn.disabled = false;
+		if (btnText) btnText.style.display = 'inline-block';
+		if (btnLoader) btnLoader.style.display = 'none';
+
+		// Scroll al mensaje de éxito
+		successMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	});
+</script>

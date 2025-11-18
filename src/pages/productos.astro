@@ -1,0 +1,176 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { products } from '../data/products';
+
+const categories = [...new Set(products.map(p => p.category))];
+---
+
+<Layout title="GMExpress - Productos">
+	<section class="page-header">
+		<div class="container">
+			<h1>🛍️ Nuestros Productos</h1>
+			<p>Encuentra los mejores productos tecnológicos al mejor precio</p>
+		</div>
+	</section>
+
+	<section class="products-section">
+		<div class="container">
+			<div class="filters">
+				<h3>Filtrar por categoría:</h3>
+				<div class="filter-buttons">
+					<button class="filter-btn active" data-category="all">Todos</button>
+					{categories.map(category => (
+						<button class="filter-btn" data-category={category}>{category}</button>
+					))}
+				</div>
+			</div>
+
+			<div class="products-grid" id="productsGrid">
+				{products.map(product => (
+					<div class="product-item" data-category={product.category}>
+						<ProductCard product={product} />
+					</div>
+				))}
+			</div>
+
+			<div id="noResults" class="no-results" style="display: none;">
+				<p>😕 No se encontraron productos en esta categoría</p>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.page-header {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		padding: 3rem 0;
+		text-align: center;
+	}
+
+	.page-header h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.page-header p {
+		font-size: 1.2rem;
+		opacity: 0.9;
+	}
+
+	.products-section {
+		padding: 3rem 0;
+	}
+
+	.filters {
+		margin-bottom: 2rem;
+		padding: 1.5rem;
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.filters h3 {
+		margin-bottom: 1rem;
+		color: #1e3c72;
+	}
+
+	.filter-buttons {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.filter-btn {
+		padding: 0.6rem 1.2rem;
+		border: 2px solid #667eea;
+		background: white;
+		color: #667eea;
+		border-radius: 25px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	.filter-btn:hover {
+		background: #667eea15;
+		transform: translateY(-2px);
+	}
+
+	.filter-btn.active {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.products-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.product-item {
+		animation: fadeIn 0.5s;
+	}
+
+	.no-results {
+		text-align: center;
+		padding: 3rem;
+		font-size: 1.2rem;
+		color: #666;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.page-header h1 {
+			font-size: 2rem;
+		}
+
+		.products-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	const filterButtons = document.querySelectorAll('.filter-btn');
+	const productItems = document.querySelectorAll('.product-item');
+	const noResults = document.getElementById('noResults');
+
+	filterButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const category = button.getAttribute('data-category');
+			
+			// Actualizar botones activos
+			filterButtons.forEach(btn => btn.classList.remove('active'));
+			button.classList.add('active');
+			
+			// Filtrar productos
+			let visibleCount = 0;
+			productItems.forEach(item => {
+				const itemCategory = item.getAttribute('data-category');
+				if (category === 'all' || itemCategory === category) {
+					item.style.display = 'block';
+					visibleCount++;
+				} else {
+					item.style.display = 'none';
+				}
+			});
+
+			// Mostrar mensaje si no hay resultados
+			if (noResults) {
+				noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+			}
+		});
+	});
+</script>

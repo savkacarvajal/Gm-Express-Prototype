@@ -1,0 +1,870 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="GMExpress - Autenticación">
+	<section class="login-section">
+		<div class="login-container">
+			<div class="login-card">
+				<div class="login-header">
+					<div class="logo-container">
+						<span class="logo">GM</span>
+						<span class="company-name">Express</span>
+					</div>
+					<h1>Bienvenido a GMExpress</h1>
+					<p>Inicia sesión o crea tu cuenta</p>
+				</div>
+
+				<!-- Tabs -->
+				<div class="tabs">
+					<button class="tab-btn active" data-tab="login">
+						🔐 Iniciar Sesión
+					</button>
+					<button class="tab-btn" data-tab="register">
+						📝 Crear Cuenta
+					</button>
+				</div>
+
+				<!-- Login Form -->
+				<form id="loginForm" class="auth-form active-form">
+					<div class="form-group">
+						<label for="email">
+							<span class="icon">📧</span>
+							Correo Electrónico
+						</label>
+						<input 
+							type="email" 
+							id="email" 
+							name="email"
+							placeholder="admin@gmexpress.com"
+							required 
+							autocomplete="email"
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="password">
+							<span class="icon">🔒</span>
+							Contraseña
+						</label>
+						<input 
+							type="password" 
+							id="password" 
+							name="password"
+							placeholder="••••••••"
+							required 
+							autocomplete="current-password"
+						/>
+					</div>
+
+					<div class="form-options">
+						<label class="checkbox-label">
+							<input type="checkbox" id="remember" />
+							<span>Recordarme</span>
+						</label>
+						<a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+					</div>
+
+					<button type="submit" class="login-btn" id="loginBtn">
+						<span id="loginBtnText">Iniciar Sesión</span>
+						<span id="loginBtnLoader" class="loader" style="display: none;">⏳</span>
+					</button>
+
+					<div class="demo-credentials">
+						<p><strong>🔑 Credenciales de Demo:</strong></p>
+						<p>Email: <code>admin@gmexpress.com</code></p>
+						<p>Contraseña: <code>admin123</code></p>
+					</div>
+
+					<div id="loginErrorMessage" class="error-message" style="display: none;"></div>
+				</form>
+
+				<!-- Register Form -->
+				<form id="registerForm" class="auth-form">
+					<div class="form-group">
+						<label for="regName">
+							<span class="icon">👤</span>
+							Nombre Completo
+						</label>
+						<input 
+							type="text" 
+							id="regName" 
+							name="name"
+							placeholder="Juan Pérez González"
+							required 
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="regEmail">
+							<span class="icon">📧</span>
+							Correo Electrónico
+						</label>
+						<input 
+							type="email" 
+							id="regEmail" 
+							name="email"
+							placeholder="tu@correo.com"
+							required 
+							autocomplete="email"
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="regPhone">
+							<span class="icon">📱</span>
+							Teléfono
+						</label>
+						<input 
+							type="tel" 
+							id="regPhone" 
+							name="phone"
+							placeholder="+56 9 1234 5678"
+							required 
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="regCompany">
+							<span class="icon">🏢</span>
+							Empresa (Opcional)
+						</label>
+						<input 
+							type="text" 
+							id="regCompany" 
+							name="company"
+							placeholder="Nombre de tu empresa"
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="regPassword">
+							<span class="icon">🔒</span>
+							Contraseña
+						</label>
+						<input 
+							type="password" 
+							id="regPassword" 
+							name="password"
+							placeholder="••••••••"
+							required 
+							autocomplete="new-password"
+							minlength="6"
+						/>
+						<small>Mínimo 6 caracteres</small>
+					</div>
+
+					<div class="form-group">
+						<label for="regPasswordConfirm">
+							<span class="icon">🔒</span>
+							Confirmar Contraseña
+						</label>
+						<input 
+							type="password" 
+							id="regPasswordConfirm" 
+							name="passwordConfirm"
+							placeholder="••••••••"
+							required 
+							autocomplete="new-password"
+							minlength="6"
+						/>
+					</div>
+
+					<div class="form-group checkbox-group">
+						<label class="checkbox-label">
+							<input type="checkbox" id="regTerms" required />
+							<span>Acepto los términos y condiciones</span>
+						</label>
+					</div>
+
+					<button type="submit" class="login-btn" id="registerBtn">
+						<span id="registerBtnText">Crear Cuenta</span>
+						<span id="registerBtnLoader" class="loader" style="display: none;">⏳</span>
+					</button>
+
+					<div id="registerErrorMessage" class="error-message" style="display: none;"></div>
+					<div id="registerSuccessMessage" class="success-message" style="display: none;">
+						<strong>✅ Cuenta creada exitosamente</strong>
+						<p>Ya puedes iniciar sesión con tus credenciales</p>
+					</div>
+				</form>
+
+				<div class="login-footer">
+					<p>Sistema protegido con Firebase Authentication</p>
+					<a href="/" class="back-link">← Volver al inicio</a>
+				</div>
+			</div>
+
+			<div class="info-card">
+				<h2>🔐 Acceso Seguro</h2>
+				<ul class="features-list">
+					<li>
+						<span class="feature-icon">✓</span>
+						<div>
+							<strong>Autenticación Firebase</strong>
+							<p>Sistema de login integrado con Firebase Auth</p>
+						</div>
+					</li>
+					<li>
+						<span class="feature-icon">✓</span>
+						<div>
+							<strong>Roles y Permisos</strong>
+							<p>Control de acceso basado en roles de usuario</p>
+						</div>
+					</li>
+					<li>
+						<span class="feature-icon">✓</span>
+						<div>
+							<strong>Sesiones Seguras</strong>
+							<p>Tokens JWT con expiración automática</p>
+						</div>
+					</li>
+					<li>
+						<span class="feature-icon">✓</span>
+						<div>
+							<strong>Auditoría</strong>
+							<p>Registro de todos los accesos al sistema</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.login-section {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.login-section::before {
+		content: '';
+		position: absolute;
+		width: 500px;
+		height: 500px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+		top: -250px;
+		left: -250px;
+	}
+
+	.login-section::after {
+		content: '';
+		position: absolute;
+		width: 400px;
+		height: 400px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+		bottom: -200px;
+		right: -200px;
+	}
+
+	.login-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		max-width: 1100px;
+		width: 100%;
+		position: relative;
+		z-index: 1;
+	}
+
+	.login-card,
+	.info-card {
+		background: white;
+		border-radius: 20px;
+		padding: 3rem;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+	}
+
+	.login-header {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+
+	.logo-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.logo {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		padding: 0.75rem 1rem;
+		border-radius: 12px;
+		font-weight: 900;
+		font-size: 1.5rem;
+		box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+	}
+
+	.company-name {
+		font-size: 1.8rem;
+		font-weight: 700;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.login-header h1 {
+		color: #1e3c72;
+		font-size: 1.8rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.login-header p {
+		color: #666;
+		font-size: 1rem;
+	}
+
+	/* Tabs */
+	.tabs {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 2rem;
+		background: #f5f5f5;
+		padding: 0.25rem;
+		border-radius: 12px;
+	}
+
+	.tab-btn {
+		flex: 1;
+		padding: 0.75rem;
+		border: none;
+		background: transparent;
+		color: #666;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		border-radius: 10px;
+		transition: all 0.3s;
+	}
+
+	.tab-btn.active {
+		background: white;
+		color: #667eea;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Forms */
+	.auth-form {
+		display: none;
+		margin-bottom: 2rem;
+	}
+
+	.auth-form.active-form {
+		display: block;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-group label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+		color: #1e3c72;
+		font-weight: 600;
+		font-size: 0.95rem;
+	}
+
+	.icon {
+		font-size: 1.2rem;
+	}
+
+	.form-group input {
+		width: 100%;
+		padding: 1rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 10px;
+		font-size: 1rem;
+		transition: all 0.3s;
+	}
+
+	.form-group input:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	}
+
+	.form-group small {
+		display: block;
+		color: #999;
+		font-size: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
+	.checkbox-group {
+		background: #f8f9fa;
+		padding: 1rem;
+		border-radius: 8px;
+	}
+
+	.form-options {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.5rem;
+		font-size: 0.9rem;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		color: #666;
+	}
+
+	.checkbox-label input {
+		width: auto;
+		cursor: pointer;
+	}
+
+	.forgot-link {
+		color: #667eea;
+		text-decoration: none;
+		font-weight: 600;
+		transition: color 0.3s;
+	}
+
+	.forgot-link:hover {
+		color: #764ba2;
+	}
+
+	.login-btn {
+		width: 100%;
+		padding: 1rem;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border: none;
+		border-radius: 10px;
+		font-size: 1.1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.login-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+	}
+
+	.login-btn:active {
+		transform: translateY(0);
+	}
+
+	.login-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		transform: none;
+	}
+
+	.loader {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
+	.demo-credentials {
+		margin-top: 1.5rem;
+		padding: 1rem;
+		background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+		border-radius: 10px;
+		border-left: 4px solid #ffc107;
+		font-size: 0.9rem;
+	}
+
+	.demo-credentials p {
+		margin: 0.25rem 0;
+		color: #856404;
+	}
+
+	.demo-credentials code {
+		background: rgba(255, 255, 255, 0.7);
+		padding: 0.2rem 0.5rem;
+		border-radius: 4px;
+		font-family: 'Courier New', monospace;
+		color: #1e3c72;
+		font-weight: 600;
+	}
+
+	.error-message {
+		margin-top: 1rem;
+		padding: 1rem;
+		background: #fee;
+		color: #c33;
+		border-radius: 8px;
+		border-left: 4px solid #c33;
+		font-weight: 500;
+	}
+
+	.success-message {
+		margin-top: 1rem;
+		padding: 1rem;
+		background: #d1fae5;
+		color: #065f46;
+		border-radius: 8px;
+		border-left: 4px solid #10b981;
+	}
+
+	.success-message strong {
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+
+	.success-message p {
+		margin: 0;
+	}
+
+	.login-footer {
+		text-align: center;
+		padding-top: 1.5rem;
+		border-top: 1px solid #e0e0e0;
+	}
+
+	.login-footer p {
+		color: #999;
+		font-size: 0.85rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.back-link {
+		color: #667eea;
+		text-decoration: none;
+		font-weight: 600;
+		transition: color 0.3s;
+	}
+
+	.back-link:hover {
+		color: #764ba2;
+	}
+
+	.info-card {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.info-card h2 {
+		color: #1e3c72;
+		font-size: 1.8rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.features-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		flex: 1;
+	}
+
+	.features-list li {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+		padding: 1rem;
+		background: #f8f9fa;
+		border-radius: 10px;
+		transition: all 0.3s;
+	}
+
+	.features-list li:hover {
+		background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+		transform: translateX(5px);
+	}
+
+	.feature-icon {
+		width: 30px;
+		height: 30px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+		flex-shrink: 0;
+	}
+
+	.features-list strong {
+		color: #1e3c72;
+		display: block;
+		margin-bottom: 0.25rem;
+	}
+
+	.features-list p {
+		color: #666;
+		font-size: 0.9rem;
+		margin: 0;
+	}
+
+	@media (max-width: 968px) {
+		.login-container {
+			grid-template-columns: 1fr;
+		}
+
+		.info-card {
+			display: none;
+		}
+
+		.login-card {
+			padding: 2rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.login-section {
+			padding: 1rem;
+		}
+
+		.login-card {
+			padding: 1.5rem;
+		}
+
+		.logo {
+			font-size: 1.2rem;
+			padding: 0.5rem 0.75rem;
+		}
+
+		.company-name {
+			font-size: 1.5rem;
+		}
+
+		.login-header h1 {
+			font-size: 1.5rem;
+		}
+	}
+</style>
+
+<script>
+	// Tab switching
+	const tabBtns = document.querySelectorAll('.tab-btn');
+	const loginForm = document.getElementById('loginForm');
+	const registerForm = document.getElementById('registerForm');
+
+	tabBtns.forEach(btn => {
+		btn.addEventListener('click', () => {
+			const tab = btn.getAttribute('data-tab');
+			
+			// Update active tab
+			tabBtns.forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+
+			// Show corresponding form
+			if (tab === 'login') {
+				loginForm?.classList.add('active-form');
+				registerForm?.classList.remove('active-form');
+			} else {
+				registerForm?.classList.add('active-form');
+				loginForm?.classList.remove('active-form');
+			}
+		});
+	});
+
+	// LOGIN FORM
+	const emailInput = document.getElementById('email') as HTMLInputElement;
+	const passwordInput = document.getElementById('password') as HTMLInputElement;
+	const loginBtn = document.getElementById('loginBtn') as HTMLButtonElement;
+	const loginBtnText = document.getElementById('loginBtnText');
+	const loginBtnLoader = document.getElementById('loginBtnLoader');
+	const loginErrorMessage = document.getElementById('loginErrorMessage');
+
+	// Credenciales mock (en producción esto sería Firebase Auth)
+	const MOCK_CREDENTIALS = {
+		email: 'admin@gmexpress.com',
+		password: 'admin123'
+	};
+
+	loginForm?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		const email = emailInput.value;
+		const password = passwordInput.value;
+
+		// Mostrar loader
+		if (loginBtn) loginBtn.disabled = true;
+		if (loginBtnText) loginBtnText.style.display = 'none';
+		if (loginBtnLoader) loginBtnLoader.style.display = 'inline-block';
+		if (loginErrorMessage) loginErrorMessage.style.display = 'none';
+
+		// Simular llamada a Firebase (delay de 1 segundo)
+		await new Promise(resolve => setTimeout(resolve, 1000));
+
+		// Buscar usuario en localStorage
+		const users = JSON.parse(localStorage.getItem('users') || '[]');
+		const user = users.find((u: any) => u.email === email && u.password === password);
+
+		// También validar admin mock
+		if ((email === MOCK_CREDENTIALS.email && password === MOCK_CREDENTIALS.password) || user) {
+			// Login exitoso
+			const mockUser = user || {
+				uid: 'mock-uid-admin',
+				email: email,
+				displayName: 'Administrador GMExpress',
+				role: 'admin',
+				loginTime: new Date().toISOString()
+			};
+
+			// Guardar sesión en localStorage
+			localStorage.setItem('adminSession', JSON.stringify(mockUser));
+			localStorage.setItem('isAuthenticated', 'true');
+
+			// Redirigir al dashboard (admin) o homepage (usuarios)
+			if (mockUser.role === 'admin') {
+				window.location.href = '/admin';
+			} else {
+				window.location.href = '/';
+			}
+		} else {
+			// Login fallido
+			if (loginErrorMessage) {
+				loginErrorMessage.textContent = '❌ Credenciales incorrectas. Por favor, verifica tu email y contraseña.';
+				loginErrorMessage.style.display = 'block';
+			}
+
+			// Restaurar botón
+			if (loginBtn) loginBtn.disabled = false;
+			if (loginBtnText) loginBtnText.style.display = 'inline-block';
+			if (loginBtnLoader) loginBtnLoader.style.display = 'none';
+
+			// Shake animation en el formulario
+			loginForm?.classList.add('shake');
+			setTimeout(() => {
+				loginForm?.classList.remove('shake');
+			}, 500);
+		}
+	});
+
+	// REGISTER FORM
+	const regNameInput = document.getElementById('regName') as HTMLInputElement;
+	const regEmailInput = document.getElementById('regEmail') as HTMLInputElement;
+	const regPhoneInput = document.getElementById('regPhone') as HTMLInputElement;
+	const regCompanyInput = document.getElementById('regCompany') as HTMLInputElement;
+	const regPasswordInput = document.getElementById('regPassword') as HTMLInputElement;
+	const regPasswordConfirmInput = document.getElementById('regPasswordConfirm') as HTMLInputElement;
+	const regTermsInput = document.getElementById('regTerms') as HTMLInputElement;
+	const registerBtn = document.getElementById('registerBtn') as HTMLButtonElement;
+	const registerBtnText = document.getElementById('registerBtnText');
+	const registerBtnLoader = document.getElementById('registerBtnLoader');
+	const registerErrorMessage = document.getElementById('registerErrorMessage');
+	const registerSuccessMessage = document.getElementById('registerSuccessMessage');
+
+	registerForm?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		// Validar contraseñas coincidan
+		if (regPasswordInput.value !== regPasswordConfirmInput.value) {
+			if (registerErrorMessage) {
+				registerErrorMessage.textContent = '❌ Las contraseñas no coinciden';
+				registerErrorMessage.style.display = 'block';
+			}
+			return;
+		}
+
+		// Validar términos
+		if (!regTermsInput.checked) {
+			if (registerErrorMessage) {
+				registerErrorMessage.textContent = '❌ Debes aceptar los términos y condiciones';
+				registerErrorMessage.style.display = 'block';
+			}
+			return;
+		}
+
+		// Mostrar loader
+		if (registerBtn) registerBtn.disabled = true;
+		if (registerBtnText) registerBtnText.style.display = 'none';
+		if (registerBtnLoader) registerBtnLoader.style.display = 'inline-block';
+		if (registerErrorMessage) registerErrorMessage.style.display = 'none';
+		if (registerSuccessMessage) registerSuccessMessage.style.display = 'none';
+
+		// Simular llamada a Firebase (delay de 2 segundos)
+		await new Promise(resolve => setTimeout(resolve, 2000));
+
+		// Obtener usuarios existentes
+		const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+		// Verificar si el email ya existe
+		if (users.some((u: any) => u.email === regEmailInput.value)) {
+			if (registerErrorMessage) {
+				registerErrorMessage.textContent = '❌ Este correo ya está registrado';
+				registerErrorMessage.style.display = 'block';
+			}
+
+			// Restaurar botón
+			if (registerBtn) registerBtn.disabled = false;
+			if (registerBtnText) registerBtnText.style.display = 'inline-block';
+			if (registerBtnLoader) registerBtnLoader.style.display = 'none';
+			return;
+		}
+
+		// Crear nuevo usuario
+		const newUser = {
+			uid: 'user-' + Date.now(),
+			name: regNameInput.value,
+			email: regEmailInput.value,
+			phone: regPhoneInput.value,
+			company: regCompanyInput.value,
+			password: regPasswordInput.value,
+			role: 'user',
+			createdAt: new Date().toISOString()
+		};
+
+		// Guardar usuario
+		users.push(newUser);
+		localStorage.setItem('users', JSON.stringify(users));
+
+		// Mostrar mensaje de éxito
+		if (registerSuccessMessage) registerSuccessMessage.style.display = 'block';
+
+		// Limpiar formulario
+		(registerForm as HTMLFormElement).reset();
+
+		// Restaurar botón
+		if (registerBtn) registerBtn.disabled = false;
+		if (registerBtnText) registerBtnText.style.display = 'inline-block';
+		if (registerBtnLoader) registerBtnLoader.style.display = 'none';
+
+		// Cambiar a tab de login después de 2 segundos
+		setTimeout(() => {
+			const loginTab = document.querySelector('[data-tab="login"]') as HTMLButtonElement;
+			loginTab?.click();
+		}, 2000);
+	});
+
+	// Verificar si ya hay sesión activa
+	const isAuthenticated = localStorage.getItem('isAuthenticated');
+	if (isAuthenticated === 'true') {
+		window.location.href = '/admin';
+	}
+</script>
+
+<style>
+	@keyframes shake {
+		0%, 100% { transform: translateX(0); }
+		25% { transform: translateX(-10px); }
+		75% { transform: translateX(10px); }
+	}
+
+	.shake {
+		animation: shake 0.5s;
+	}
+</style>

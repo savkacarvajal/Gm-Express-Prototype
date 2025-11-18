@@ -1,0 +1,833 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="GMExpress - Panel de Administración">
+	<!-- Verificación de autenticación -->
+	<div id="authCheck" style="display: none;">
+		<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+			<div style="text-align: center; color: white;">
+				<h1 style="font-size: 3rem; margin-bottom: 1rem;">🔒</h1>
+				<h2 style="font-size: 2rem; margin-bottom: 1rem;">Acceso Restringido</h2>
+				<p style="font-size: 1.2rem; margin-bottom: 2rem;">Redirigiendo al login...</p>
+			</div>
+		</div>
+	</div>
+
+	<section class="admin-header">
+		<div class="container">
+			<div style="display: flex; justify-content: space-between; align-items: center;">
+				<div>
+					<h1>🔐 Panel de Administración</h1>
+					<p>Gestiona productos, servicios y ventas</p>
+				</div>
+				<div style="display: flex; gap: 1rem; align-items: center;">
+					<span id="adminName" style="color: white; font-weight: 600;"></span>
+					<button id="logoutBtn" style="padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.2); border: 2px solid white; color: white; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+						🚪 Cerrar Sesión
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="admin-section">
+		<div class="container">
+			<div class="admin-tabs">
+				<button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+				<button class="tab-btn" data-tab="products">📦 Productos</button>
+				<button class="tab-btn" data-tab="services">⚙️ Servicios</button>
+				<button class="tab-btn" data-tab="sales">💰 Ventas</button>
+				<button class="tab-btn" data-tab="quotes">📋 Cotizaciones</button>
+			</div>
+
+			<!-- Dashboard Tab -->
+			<div class="tab-content active" id="dashboard">
+				<div class="stats-grid">
+					<div class="stat-card">
+						<div class="stat-icon">📦</div>
+						<div class="stat-info">
+							<h3 id="totalProducts">0</h3>
+							<p>Productos</p>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">⚙️</div>
+						<div class="stat-info">
+							<h3 id="totalServices">0</h3>
+							<p>Servicios</p>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">💰</div>
+						<div class="stat-info">
+							<h3 id="totalSales">0</h3>
+							<p>Ventas</p>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">📋</div>
+						<div class="stat-info">
+							<h3 id="totalQuotes">0</h3>
+							<p>Cotizaciones</p>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">💵</div>
+						<div class="stat-info">
+							<h3 id="totalRevenue">$0</h3>
+							<p>Ingresos</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="recent-section">
+					<h2>📋 Actividad Reciente</h2>
+					<div class="activity-list" id="activityList">
+						<p class="no-data">No hay actividad reciente</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Products Tab -->
+			<div class="tab-content" id="products">
+				<div class="section-header">
+					<h2>📦 Gestión de Productos</h2>
+					<button class="btn btn-primary" id="addProductBtn">+ Nuevo Producto</button>
+				</div>
+
+				<div class="table-container">
+					<table class="data-table" id="productsTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Imagen</th>
+								<th>Nombre</th>
+								<th>Categoría</th>
+								<th>Precio</th>
+								<th>Stock</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Productos cargados dinámicamente -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- Services Tab -->
+			<div class="tab-content" id="services">
+				<div class="section-header">
+					<h2>⚙️ Gestión de Servicios</h2>
+					<button class="btn btn-primary" id="addServiceBtn">+ Nuevo Servicio</button>
+				</div>
+
+				<div class="table-container">
+					<table class="data-table" id="servicesTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Icono</th>
+								<th>Nombre</th>
+								<th>Precio</th>
+								<th>Duración</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Servicios cargados dinámicamente -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- Sales Tab -->
+			<div class="tab-content" id="sales">
+				<div class="section-header">
+					<h2>💰 Gestión de Ventas</h2>
+					<button class="btn btn-secondary" id="exportSalesBtn">📥 Exportar</button>
+				</div>
+
+				<div class="filters-bar">
+					<input type="date" id="dateFilter" class="filter-input" />
+					<select id="statusFilter" class="filter-input">
+						<option value="all">Todos los estados</option>
+						<option value="pending">Pendiente</option>
+						<option value="completed">Completado</option>
+						<option value="cancelled">Cancelado</option>
+					</select>
+				</div>
+
+				<div class="table-container">
+					<table class="data-table" id="salesTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Fecha</th>
+								<th>Cliente</th>
+								<th>Items</th>
+								<th>Total</th>
+								<th>Estado</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Ventas cargadas dinámicamente -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- Quotes Tab -->
+			<div class="tab-content" id="quotes">
+				<div class="section-header">
+					<h2>📋 Solicitudes de Cotización</h2>
+					<button class="btn btn-secondary" id="exportQuotesBtn">📥 Exportar</button>
+				</div>
+
+				<div class="filters-bar">
+					<input type="text" id="searchQuote" class="filter-input" placeholder="Buscar por nombre o empresa..." />
+					<select id="serviceFilter" class="filter-input">
+						<option value="all">Todos los servicios</option>
+						<option value="alimentacion-tradicional">Alimentación Tradicional</option>
+						<option value="servicio-transportado">Servicio Transportado</option>
+						<option value="concesion-casinos">Concesión de Casinos</option>
+						<option value="recepciones">Recepciones</option>
+						<option value="catering">Catering</option>
+						<option value="coffee-break">Coffee Break</option>
+						<option value="aniversarios">Aniversarios</option>
+						<option value="complementarios">Complementarios</option>
+					</select>
+				</div>
+
+				<div class="table-container">
+					<table class="data-table" id="quotesTable">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Nombre</th>
+								<th>Empresa</th>
+								<th>Servicio</th>
+								<th>Personas</th>
+								<th>Contacto</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Cotizaciones cargadas dinámicamente -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Modal para ver detalles de cotización -->
+	<div class="modal" id="quoteDetailModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>📋 Detalle de Cotización</h2>
+				<button class="close-btn" id="closeQuoteDetailModal">×</button>
+			</div>
+			<div id="quoteDetailContent" style="padding: 1rem;">
+				<!-- Contenido dinámico -->
+			</div>
+			<div class="modal-actions">
+				<button type="button" class="btn btn-secondary" id="closeQuoteDetailBtn">Cerrar</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal para Producto -->
+	<div class="modal" id="productModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="productModalTitle">Nuevo Producto</h2>
+				<button class="close-btn" id="closeProductModal">×</button>
+			</div>
+			<form id="productForm">
+				<input type="hidden" id="productId" />
+				<div class="form-group">
+					<label>Nombre del Producto</label>
+					<input type="text" id="productName" required />
+				</div>
+				<div class="form-group">
+					<label>Descripción</label>
+					<textarea id="productDescription" required></textarea>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Precio</label>
+						<input type="number" id="productPrice" step="0.01" required />
+					</div>
+					<div class="form-group">
+						<label>Stock</label>
+						<input type="number" id="productStock" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Categoría</label>
+					<input type="text" id="productCategory" required />
+				</div>
+				<div class="form-group">
+					<label>URL de Imagen</label>
+					<input type="url" id="productImage" required />
+				</div>
+				<div class="modal-actions">
+					<button type="button" class="btn btn-secondary" id="cancelProductBtn">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Modal para Servicio -->
+	<div class="modal" id="serviceModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 id="serviceModalTitle">Nuevo Servicio</h2>
+				<button class="close-btn" id="closeServiceModal">×</button>
+			</div>
+			<form id="serviceForm">
+				<input type="hidden" id="serviceId" />
+				<div class="form-group">
+					<label>Nombre del Servicio</label>
+					<input type="text" id="serviceName" required />
+				</div>
+				<div class="form-group">
+					<label>Descripción</label>
+					<textarea id="serviceDescription" required></textarea>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Precio</label>
+						<input type="number" id="servicePrice" step="0.01" required />
+					</div>
+					<div class="form-group">
+						<label>Duración</label>
+						<input type="text" id="serviceDuration" required placeholder="ej: Mensual" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Icono (emoji)</label>
+					<input type="text" id="serviceIcon" required maxlength="2" />
+				</div>
+				<div class="form-group">
+					<label>Características (separadas por coma)</label>
+					<textarea id="serviceFeatures" required placeholder="Feature 1, Feature 2, Feature 3"></textarea>
+				</div>
+				<div class="modal-actions">
+					<button type="button" class="btn btn-secondary" id="cancelServiceBtn">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.admin-header {
+		background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+		color: white;
+		padding: 3rem 0;
+		text-align: center;
+	}
+
+	.admin-header h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.admin-header p {
+		font-size: 1.2rem;
+		opacity: 0.9;
+	}
+
+	.admin-section {
+		padding: 2rem 0;
+		min-height: 70vh;
+	}
+
+	.admin-tabs {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 2rem;
+		background: white;
+		padding: 1rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		overflow-x: auto;
+	}
+
+	.tab-btn {
+		padding: 0.75rem 1.5rem;
+		background: transparent;
+		border: none;
+		border-radius: 8px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+		white-space: nowrap;
+		color: #666;
+	}
+
+	.tab-btn:hover {
+		background: #f8f9fa;
+	}
+
+	.tab-btn.active {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.tab-content {
+		display: none;
+	}
+
+	.tab-content.active {
+		display: block;
+		animation: fadeIn 0.3s;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+		margin-bottom: 2rem;
+	}
+
+	.stat-card {
+		background: white;
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		transition: transform 0.3s;
+	}
+
+	.stat-card:hover {
+		transform: translateY(-5px);
+	}
+
+	.stat-icon {
+		font-size: 3rem;
+		background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+		padding: 1rem;
+		border-radius: 12px;
+	}
+
+	.stat-info h3 {
+		font-size: 2rem;
+		color: #1e3c72;
+		margin-bottom: 0.25rem;
+	}
+
+	.stat-info p {
+		color: #666;
+		font-size: 1rem;
+	}
+
+	.recent-section {
+		background: white;
+		padding: 2rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.recent-section h2 {
+		color: #1e3c72;
+		margin-bottom: 1.5rem;
+	}
+
+	.activity-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.activity-item {
+		padding: 1rem;
+		background: #f8f9fa;
+		border-radius: 8px;
+		border-left: 4px solid #667eea;
+	}
+
+	.no-data {
+		text-align: center;
+		color: #999;
+		padding: 2rem;
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.5rem;
+		background: white;
+		padding: 1.5rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.section-header h2 {
+		color: #1e3c72;
+		margin: 0;
+	}
+
+	.btn {
+		padding: 0.75rem 1.5rem;
+		border: none;
+		border-radius: 8px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+		font-size: 1rem;
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+	}
+
+	.btn-secondary {
+		background: white;
+		color: #667eea;
+		border: 2px solid #667eea;
+	}
+
+	.btn-secondary:hover {
+		background: #667eea15;
+		transform: translateY(-2px);
+	}
+
+	.filters-bar {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+		background: white;
+		padding: 1rem;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.filter-input {
+		padding: 0.75rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 8px;
+		font-size: 1rem;
+		flex: 1;
+	}
+
+	.filter-input:focus {
+		outline: none;
+		border-color: #667eea;
+	}
+
+	.table-container {
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		overflow-x: auto;
+	}
+
+	.data-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.data-table thead {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.data-table th,
+	.data-table td {
+		padding: 1rem;
+		text-align: left;
+	}
+
+	.data-table tbody tr {
+		border-bottom: 1px solid #e0e0e0;
+		transition: background 0.3s;
+	}
+
+	.data-table tbody tr:hover {
+		background: #f8f9fa;
+	}
+
+	.data-table img {
+		width: 50px;
+		height: 50px;
+		object-fit: cover;
+		border-radius: 8px;
+	}
+
+	.action-btn {
+		padding: 0.5rem 0.75rem;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		font-weight: 600;
+		margin-right: 0.5rem;
+		transition: all 0.3s;
+	}
+
+	.edit-btn {
+		background: #667eea;
+		color: white;
+	}
+
+	.edit-btn:hover {
+		background: #5568d3;
+		transform: scale(1.05);
+	}
+
+	.delete-btn {
+		background: #ff4757;
+		color: white;
+	}
+
+	.delete-btn:hover {
+		background: #ff3838;
+		transform: scale(1.05);
+	}
+
+	.view-btn {
+		background: #10b981;
+		color: white;
+	}
+
+	.view-btn:hover {
+		background: #059669;
+		transform: scale(1.05);
+	}
+
+	.status-badge {
+		padding: 0.4rem 0.8rem;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	.status-pending {
+		background: #fef3c7;
+		color: #92400e;
+	}
+
+	.status-completed {
+		background: #d1fae5;
+		color: #065f46;
+	}
+
+	.status-cancelled {
+		background: #fee2e2;
+		color: #991b1b;
+	}
+
+	/* Modal Styles */
+	.modal {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.7);
+		z-index: 9999;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal.active {
+		display: flex;
+	}
+
+	.modal-content {
+		background: white;
+		border-radius: 12px;
+		max-width: 600px;
+		width: 90%;
+		max-height: 90vh;
+		overflow-y: auto;
+	}
+
+	.modal-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1.5rem;
+		border-bottom: 1px solid #e0e0e0;
+	}
+
+	.modal-header h2 {
+		color: #1e3c72;
+		margin: 0;
+	}
+
+	.close-btn {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		cursor: pointer;
+		color: #999;
+		line-height: 1;
+		padding: 0;
+		width: 30px;
+		height: 30px;
+		transition: color 0.3s;
+	}
+
+	.close-btn:hover {
+		color: #ff4757;
+	}
+
+	form {
+		padding: 1.5rem;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		color: #1e3c72;
+		font-weight: 600;
+	}
+
+	.form-group input,
+	.form-group textarea,
+	.form-group select {
+		width: 100%;
+		padding: 0.75rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-family: inherit;
+	}
+
+	.form-group textarea {
+		min-height: 100px;
+		resize: vertical;
+	}
+
+	.form-group input:focus,
+	.form-group textarea:focus,
+	.form-group select:focus {
+		outline: none;
+		border-color: #667eea;
+	}
+
+	.modal-actions {
+		display: flex;
+		gap: 1rem;
+		justify-content: flex-end;
+		padding-top: 1rem;
+		border-top: 1px solid #e0e0e0;
+	}
+
+	@media (max-width: 768px) {
+		.admin-header h1 {
+			font-size: 2rem;
+		}
+
+		.stats-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.section-header {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.form-row {
+			grid-template-columns: 1fr;
+		}
+
+		.admin-tabs {
+			flex-wrap: nowrap;
+		}
+	}
+</style>
+
+<script>
+	// Verificar autenticación antes de cargar el contenido
+	const isAuthenticated = localStorage.getItem('isAuthenticated');
+	const adminSession = localStorage.getItem('adminSession');
+
+	if (!isAuthenticated || isAuthenticated !== 'true') {
+		// Mostrar mensaje y redirigir
+		const authCheck = document.getElementById('authCheck');
+		if (authCheck) authCheck.style.display = 'block';
+		
+		setTimeout(() => {
+			window.location.href = '/login';
+		}, 1500);
+	} else {
+		// Usuario autenticado, mostrar nombre
+		if (adminSession) {
+			try {
+				const session = JSON.parse(adminSession);
+				const nameElement = document.getElementById('adminName');
+				if (nameElement) {
+					nameElement.textContent = `👤 ${session.displayName || session.email}`;
+				}
+			} catch (e) {
+				console.error('Error al parsear sesión:', e);
+			}
+		}
+
+		// Configurar botón de logout
+		const logoutBtn = document.getElementById('logoutBtn');
+		if (logoutBtn) {
+			logoutBtn.addEventListener('click', () => {
+				if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+					// Limpiar sesión
+					localStorage.removeItem('adminSession');
+					localStorage.removeItem('isAuthenticated');
+					
+					// Redirigir al login
+					window.location.href = '/login';
+				}
+			});
+
+			logoutBtn.addEventListener('mouseover', () => {
+				logoutBtn.style.background = 'white';
+				logoutBtn.style.color = '#1e3c72';
+			});
+
+			logoutBtn.addEventListener('mouseout', () => {
+				logoutBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+				logoutBtn.style.color = 'white';
+			});
+		}
+	}
+</script>
+
+<script src="../scripts/admin.ts"></script>
